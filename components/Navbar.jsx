@@ -43,14 +43,14 @@ const Navbar = () => {
             <Link href="/">
               <li className="ml-10 text-xl uppercase hover:border-b">Home</li>
             </Link>
-            <Link href="/">
+            <Link href="https://exceptional-trailblazer-5115.ck.page/dbb174c28c">
               <li className="ml-10 text-xl uppercase hover:border-b">
                 Newsletter
               </li>
             </Link>
           </ul>
           <div onClick={handleNav} className="md:hidden">
-            <AiOutlineMenu size={25} />
+            <AiOutlineMenu color={"#f7ce2e"} size={25} />
           </div>
         </div>
       </div>
@@ -77,7 +77,7 @@ const Navbar = () => {
               </Link>
               <div
                 onClick={handleNav}
-                className="rounded-full shadow-lg shadow-gray-400 p-3 cursor-pointer"
+                className="rounded-full shadow-lg shadow-[#232323] p-3 cursor-pointer"
               >
                 <AiOutlineClose />
               </div>
@@ -88,7 +88,7 @@ const Navbar = () => {
           </div>
           <div className="py-4 flex flex-col">
             <ul className="uppercase">
-              <Link href="/">
+              <Link href="https://exceptional-trailblazer-5115.ck.page/dbb174c28c">
                 <li onClick={() => setNav(false)} className="py-4 text-xl">
                   Home
                 </li>
