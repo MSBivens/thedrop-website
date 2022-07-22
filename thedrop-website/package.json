@@ -2,7 +2,6 @@
   "name": "thedrop-website",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,8 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@alch/alchemy-sdk": "^1.0.8",
-    "@alch/alchemy-web3": "^1.4.6",
     "axios": "^0.27.2",
     "dotenv": "^16.0.1",
     "next": "12.2.2",

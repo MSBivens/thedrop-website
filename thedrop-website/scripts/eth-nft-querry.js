@@ -1,57 +1,46 @@
-const alchemyKey = process.env.ALCHEMY_API_KEY;
+// fetch version
 
-// This script demonstrates access to the NFT API via the Alchemy SDK.
-import {
-  Network,
-  initializeAlchemy,
-  getNftsForOwner,
-  getNftMetadata,
-  // BaseNft,
-  // NftTokenType,
-} from "@alch/alchemy-sdk";
+////
+const fetchNFTs = async () => {
+  let nfts;
+  console.log("fetching nfts");
+  const api_key = "FN8guMexPXkWry3c8gKxy8nwCb0LZde-";
+  const baseURL = `https://eth-mainnet.alchemyapi.io/v2/${api_key}/getNFTs/`;
 
-// Optional Config object, but defaults to demo api-key and eth-mainnet.
-const settings = {
-  apiKey: alchemyKey,
-  network: Network.ETH_MAINNET,
-  maxRetries: 10,
+  if (!collection.length) {
+    var requestOptions = {
+      method: "GET",
+    };
+
+    const fetchURL = `${baseURL}?owner=${wallet}`;
+
+    nfts = await fetch(fetchURL, requestOptions).then((data) => data.json());
+  } else {
+    console.log("fetching nfts for collection owned by address");
+    const fetchURL = `${baseURL}?owner=${wallet}&contractAddresses%5B%5D=${collection}`;
+    nfts = await fetch(fetchURL, requestOptions).then((data) => data.json());
+  }
+
+  if (nfts) {
+    console.log("nfts:", nfts);
+    setNFTs(nfts.ownedNfts);
+  }
 };
 
-const alchemy = initializeAlchemy(settings);
-
-// Print owner's wallet address:
-const ownerAddr = "0xshah.eth";
-console.log("fetching NFTs for address:", ownerAddr);
-console.log("...");
-
-// Print total NFT count returned in the response:
-const nftsForOwner = await getNftsForOwner(alchemy, "0xshah.eth");
-console.log("number of NFTs found:", nftsForOwner.totalCount);
-console.log("...");
-
-// Print contract address and tokenId for each NFT:
-for (const nft of nftsForOwner.ownedNfts) {
-  console.log("===");
-  console.log("contract address:", nft.contract.address);
-  console.log("token ID:", nft.tokenId);
-}
-console.log("===");
-
-// Fetch metadata for a particular NFT:
-console.log("fetching metadata for a Crypto Coven NFT...");
-const response = await getNftMetadata(
-  alchemy,
-  "0x5180db8F5c931aaE63c74266b211F580155ecac8",
-  "1590"
-);
-
-// Uncomment this line to see the full api response:
-// console.log(response);
-
-// Print some commonly used fields:
-console.log("NFT name: ", response.title);
-console.log("token type: ", response.tokenType);
-console.log("tokenUri: ", response.tokenUri.gateway);
-console.log("image url: ", response.rawMetadata.image);
-console.log("time last updated: ", response.timeLastUpdated);
-console.log("===");
+const fetchNFTsForCollection = async () => {
+  if (collection.length) {
+    var requestOptions = {
+      method: "GET",
+    };
+    const api_key = "FN8guMexPXkWry3c8gKxy8nwCb0LZde-";
+    const baseURL = `https://eth-mainnet.alchemyapi.io/v2/${api_key}/getNFTsForCollection/`;
+    const fetchURL = `${baseURL}?contractAddress=${collection}&withMetadata=${"true"}`;
+    const nfts = await fetch(fetchURL, requestOptions).then((data) =>
+      data.json()
+    );
+    if (nfts) {
+      console.log("NFTs in collection:", nfts);
+      setNFTs(nfts.nfts);
+    }
+  }
+};
