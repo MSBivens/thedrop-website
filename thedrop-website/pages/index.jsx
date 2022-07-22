@@ -1,0 +1,19 @@
+import Head from "next/head";
+import Main from "../components/Main";
+
+export default function Home() {
+  return (
+    <div>
+      <Head>
+        <title>TheDrop</title>
+        <meta
+          name="description"
+          content="An NFT newsletter for collectors and traders"
+        />
+        <meta name="keywords" content="NFT, tools, resources, news, events" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Main />
+    </div>
+  );
+}
