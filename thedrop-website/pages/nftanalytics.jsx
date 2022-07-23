@@ -32,14 +32,15 @@ export default function NftAnalytics() {
   //     setNFTs(nfts.ownedNfts);
   //   }
   // };
+  const api_key = "kygVl8vLhN5FdS4zpb2MHi5pcGNLQytg";
+  const api_call = "getNFTsForCollection/";
+  const baseURL = `https://eth-mainnet.alchemyapi.io/v2/${api_key}/${api_call}`;
 
   const fetchNFTsForCollection = async () => {
     if (collection.length) {
       var requestOptions = {
         method: "GET",
       };
-      const api_key = "kygVl8vLhN5FdS4zpb2MHi5pcGNLQytg";
-      const baseURL = `https://eth-mainnet.alchemyapi.io/v2/${api_key}/getNFTsForCollection/`;
       const fetchURL = `${baseURL}?contractAddress=${collection}&withMetadata=${"true"}`;
       const nfts = await fetch(fetchURL, requestOptions).then((data) =>
         data.json()
@@ -52,7 +53,7 @@ export default function NftAnalytics() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center py-8 gap-y-3">
+    <div className="flex flex-col items-center justify-center pt-32 py-8 gap-y-3">
       <div className="flex flex-col w-full justify-center items-center gap-y-2">
         {/* <input
           disabled={fetchForCollection}
