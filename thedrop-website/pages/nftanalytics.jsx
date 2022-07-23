@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NFTCard } from "../components/nftCard";
+import { projectOverview } from "../components/projectOverview";
 
 // Testing contract address: 0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d
 
@@ -12,20 +13,37 @@ export default function NftAnalytics() {
 
   // General API const
   const api_key = "kygVl8vLhN5FdS4zpb2MHi5pcGNLQytg";
-  const api_call = "getNFTsForCollection/";
-  const baseURL = `https://eth-mainnet.alchemyapi.io/v2/${api_key}/${api_call}`;
+  const baseURL = `https://eth-mainnet.alchemyapi.io/v2/${api_key}/`;
 
   //Data const
   const [collection, setCollectionAddress] = useState("");
   const [NFTs, setNFTs] = useState([]);
+  const [contractMetadata, setContractMetadata] = useState([]);
 
   // API Calls
+  const getContractMetadata = async () => {
+    let projectMetadata;
+    console.log("fetching contract metadata");
+    if (!collection.length) {
+      var requestOptions = {
+        method: "GET",
+      };
+      const fetchUrl = `${baseURL}getContractMetadata/?contractAddress=${collection}`;
+      const projectMetadata = await fetch(fetchUrl, requestOptions).then(
+        (data) => data.json()
+      );
+      if (projectMetadata) {
+        console.log("Metadata for contract:", projectMetadata);
+        setContractMetadata(projectMetadata.projectData);
+      }
+    }
+  };
   const fetchNFTsForCollection = async () => {
     if (collection.length) {
       var requestOptions = {
         method: "GET",
       };
-      const fetchURL = `${baseURL}?contractAddress=${collection}&withMetadata=${"true"}`;
+      const fetchURL = `${baseURL}getNFTsForCollection/?contractAddress=${collection}&withMetadata=${"true"}`;
       const nfts = await fetch(fetchURL, requestOptions).then((data) =>
         data.json()
       );
@@ -54,10 +72,21 @@ export default function NftAnalytics() {
           }
           onClick={() => {
             fetchNFTsForCollection();
+            getContractMetadata();
           }}
         >
           Let's go!{" "}
         </button>
+      </div>
+      <div className="flex flex-wrap gap-y-12 mt-4 w-5/6 gap-x-2 justify-center">
+        {contractMetadata.length &&
+          contractMetadata.map((projectMetadata) => {
+            return (
+              <projectOverview
+                projectMetadata={projectMetadata}
+              ></projectOverview>
+            );
+          })}
       </div>
       <div className="flex flex-wrap gap-y-12 mt-4 w-5/6 gap-x-2 justify-center">
         <button
