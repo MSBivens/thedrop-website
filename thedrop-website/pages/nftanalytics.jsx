@@ -1,10 +1,19 @@
 import { useState } from "react";
 import { NFTCard } from "../components/nftCard";
 
+// Testing contract address: 0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d
+
 export default function NftAnalytics() {
-  // const [wallet, setWalletAddress] = useState("");
   const [collection, setCollectionAddress] = useState("");
   const [NFTs, setNFTs] = useState([]);
+
+  // Change content displays
+  const [displayGallery, setDisplayGallery] = useState(false);
+  const handleGallery = () => {
+    setDisplayGallery(!displayGallery);
+  };
+
+  // const [wallet, setWalletAddress] = useState("");
   // const [fetchForCollection, setFetchForCollection] = useState(false);
 
   // const fetchNFTs = async () => {
@@ -32,10 +41,12 @@ export default function NftAnalytics() {
   //     setNFTs(nfts.ownedNfts);
   //   }
   // };
+  // General API const
   const api_key = "kygVl8vLhN5FdS4zpb2MHi5pcGNLQytg";
   const api_call = "getNFTsForCollection/";
   const baseURL = `https://eth-mainnet.alchemyapi.io/v2/${api_key}/${api_call}`;
 
+  // API Calls
   const fetchNFTsForCollection = async () => {
     if (collection.length) {
       var requestOptions = {
@@ -96,6 +107,30 @@ export default function NftAnalytics() {
         </button>
       </div>
       <div className="flex flex-wrap gap-y-12 mt-4 w-5/6 gap-x-2 justify-center">
+        <button
+          className={
+            "disabled:bg-slate-500 text-white bg-blue-400 px-4 py-2 mt-3 rounded-sm w-1/5"
+          }
+          onClick={() => setDisplayGallery(false)}
+        >
+          Stats{" "}
+        </button>
+        <button
+          className={
+            "disabled:bg-slate-500 text-white bg-blue-400 px-4 py-2 mt-3 rounded-sm w-1/5"
+          }
+          onClick={handleGallery}
+        >
+          Gallery{" "}
+        </button>
+      </div>
+      <div
+        className={
+          displayGallery
+            ? "flex flex-wrap gap-y-12 mt-4 w-5/6 gap-x-2 justify-center"
+            : "hidden"
+        }
+      >
         {NFTs.length &&
           NFTs.map((nft) => {
             return <NFTCard nft={nft}></NFTCard>;
