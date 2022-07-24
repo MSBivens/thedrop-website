@@ -22,20 +22,19 @@ export default function NftAnalytics() {
 
   // API Calls
   const getContractMetadata = async () => {
-    let projectMetadata;
+    // let projectMetadata;
     console.log("fetching contract metadata");
-    if (!collection.length) {
-      var requestOptions = {
-        method: "GET",
-      };
-      const fetchUrl = `${baseURL}getContractMetadata/?contractAddress=${collection}`;
-      const projectMetadata = await fetch(fetchUrl, requestOptions).then(
-        (data) => data.json()
-      );
-      if (projectMetadata) {
-        console.log("Metadata for contract:", projectMetadata);
-        setContractMetadata(projectMetadata.projectData);
-      }
+    // if (!collection.length) {
+    var requestOptions = {
+      method: "GET",
+    };
+    const fetchUrl = `${baseURL}getContractMetadata/?contractAddress=${collection}`;
+    const projectMetadata = await fetch(fetchUrl, requestOptions).then((data) =>
+      data.json()
+    );
+    if (projectMetadata) {
+      console.log("Metadata for contract:", projectMetadata);
+      setContractMetadata(projectMetadata.projectMetadata);
     }
   };
   const fetchNFTsForCollection = async () => {
@@ -79,14 +78,17 @@ export default function NftAnalytics() {
         </button>
       </div>
       <div className="flex flex-wrap gap-y-12 mt-4 w-5/6 gap-x-2 justify-center">
-        {contractMetadata.length &&
+        {contractMetadata ? (
           contractMetadata.map((projectMetadata) => {
             return (
               <projectOverview
                 projectMetadata={projectMetadata}
               ></projectOverview>
             );
-          })}
+          })
+        ) : (
+          <div> No project found </div>
+        )}
       </div>
       <div className="flex flex-wrap gap-y-12 mt-4 w-5/6 gap-x-2 justify-center">
         <button
